@@ -51,11 +51,11 @@ class Settings(BaseSettings):
 
     # Anthropic (asosiy)
     anthropic_api_key: str | None = None
-    anthropic_model: str = "claude-opus-5"
+    anthropic_model: str = "claude-haiku-4-5"
     # Javob chuqurligi: low | medium | high | xhigh | max.
-    # Konsultant-bot uchun "low" yetarli va eng tez/arzon.
-    # DIQQAT 1: Haiku modellari `effort` ni qo'llab-quvvatlamaydi — u avtomatik
-    #   o'tkazib yuboriladi (claude_service.py ga qarang).
+    # DIQQAT 1: sukutdagi model — Haiku, u `effort` ni QO'LLAB-QUVVATLAMAYDI,
+    #   shuning uchun bu sozlama e'tiborsiz qoldiriladi (claude_service.py ga
+    #   qarang). U faqat Opus yoki Sonnet modeliga o'tganingizda ishlaydi.
     # DIQQAT 2: o'zgaruvchi ataylab AI_EFFORT deb nomlangan. CLAUDE_* prefiksi
     #   Claude Code kabi vositalarning muhit o'zgaruvchilari bilan to'qnashadi,
     #   haqiqiy env o'zgaruvchi esa .env faylidan ustun turadi.

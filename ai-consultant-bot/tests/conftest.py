@@ -19,7 +19,7 @@ os.environ.update(
         "ADMIN_ID": "555,999",
         "AI_PROVIDER": "anthropic",
         "ANTHROPIC_API_KEY": "sk-ant-test",
-        "ANTHROPIC_MODEL": "claude-opus-5",
+        "ANTHROPIC_MODEL": "claude-haiku-4-5",
         "AI_EFFORT": "low",
         "OPENAI_API_KEY": "sk-test",
         "COMPANY_NAME": "Sunrise Digital",

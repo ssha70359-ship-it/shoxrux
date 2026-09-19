@@ -263,6 +263,17 @@ async def main() -> None:
         step("11. Noma'lum buyruq")
         await say("/bunday_buyruq_yoq")
 
+        step("12. Claude'ga qanday so'rov ketdi")
+        if ft.REQUESTS:
+            first = ft.REQUESTS[0]
+            print(f"   model        : {first.get('model')}")
+            print(f"   max_tokens   : {first.get('max_tokens')}")
+            print(f"   output_config: {first.get('output_config', '(yuborilmadi)')}")
+            print(f"   system       : {len(first.get('system', ''))} belgi")
+            print(f"   messages     : {len(first.get('messages', []))} ta")
+        else:
+            print("   (so'rov yuborilmadi)")
+
     finally:
         if bot.returncode is None:
             bot.terminate()

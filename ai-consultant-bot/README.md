@@ -19,9 +19,9 @@ Buning o'rniga joriy modellar ishlatiladi (`.env` dagi `ANTHROPIC_MODEL`):
 
 | Model | Kontekst | Narx (input/output, 1M token) | Qachon |
 |---|---|---|---|
-| `claude-opus-5` *(sukut bo'yicha)* | 1M | $5 / $25 | Eng kuchli, murakkab savollar |
-| `claude-sonnet-5` | 1M | $2 / $10 | Muvozanatli variant |
-| `claude-haiku-4-5` | 200K | $1 / $5 | Eng arzon va tez — siz `haiku` so'raganingiz uchun mos muqobil |
+| `claude-haiku-4-5` *(sukut bo'yicha)* | 200K | $1 / $5 | Eng arzon va tez — konsultant-bot uchun yetarli |
+| `claude-sonnet-5` | 1M | $2 / $10 | Murakkabroq savollar uchun |
+| `claude-opus-5` | 1M | $5 / $25 | Eng kuchli |
 
 Model ID lariga sana qo'shilmaydi — jadvaldagi satr to'liq ID.
 
@@ -46,7 +46,7 @@ ai-consultant-bot/
 │   ├── fake_services.py          #   soxta Telegram va Anthropic serverlari
 │   └── _launcher.py              #   aiogram sessiyasini lokal serverga qaratadi
 │
-├── tests/                        # 83 ta test (pytest)
+├── tests/                        # 86 ta test (pytest)
 │   ├── conftest.py               #   fixture'lar: soxta bot, stub AI, baza
 │   ├── test_database.py          #   sxema, migratsiya, tarix, statistika
 │   ├── test_handlers.py          #   menyu, til, AI suhbat, xatolar
@@ -134,8 +134,8 @@ yo'qolmaydi.
 | `ADMIN_ID` | — | — | Admin ID(lar), vergul bilan: `111,222` |
 | `AI_PROVIDER` | — | `anthropic` | `anthropic` yoki `openai` |
 | `ANTHROPIC_API_KEY` | ✅ | — | Claude API kaliti |
-| `ANTHROPIC_MODEL` | — | `claude-opus-5` | Yuqoridagi jadvalga qarang |
-| `AI_EFFORT` | — | `low` | `low`…`max` — javob chuqurligi |
+| `ANTHROPIC_MODEL` | — | `claude-haiku-4-5` | Yuqoridagi jadvalga qarang |
+| `AI_EFFORT` | — | `low` | `low`…`max` — javob chuqurligi. Haiku'da ishlamaydi (quyiga qarang) |
 | `OPENAI_API_KEY` | `openai` uchun | — | Muqobil provayder |
 | `OPENAI_MODEL` | — | `gpt-4o-mini` | |
 | `AI_MAX_TOKENS` | — | `1024` | Javob uzunligi chegarasi |
@@ -179,10 +179,12 @@ response = await self._client.messages.create(
 
 - **`system` alohida parametr.** OpenAI'da u `messages[0]`, Claude'da esa
   top-level maydon. Ikki API o'rtasidagi asosiy farq shu.
-- **`effort`** javob chuqurligini boshqaradi. Konsultant-bot uchun `low` —
-  eng tez va arzon. **Haiku modellari `effort` ni qo'llab-quvvatlamaydi**
-  (API 400 qaytaradi), shuning uchun model nomida `haiku` bo'lsa parametr
-  avtomatik o'tkazib yuboriladi.
+- **`effort`** javob chuqurligini boshqaradi. **Haiku modellari uni
+  qo'llab-quvvatlamaydi** (API 400 qaytaradi), shuning uchun model nomida
+  `haiku` bo'lsa parametr avtomatik o'tkazib yuboriladi va ishga tushganda
+  logga bir qatorlik eslatma yoziladi. Sukutdagi model Haiku bo'lgani uchun
+  `AI_EFFORT` odatda e'tiborsiz qoladi — u Sonnet yoki Opus'ga
+  o'tganingizda ishlay boshlaydi (konsultant-bot uchun `low` yetarli).
 - **`stop_reason == "refusal"`** tekshiriladi: model javob berishdan bosh
   tortsa, foydalanuvchiga tushunarli xabar chiqadi.
 - **Javob bloklari.** `response.content` bir nechta blokdan iborat bo'lishi
@@ -420,7 +422,7 @@ tegmaydi).
 | `ruff check` | Linter: ishlatilmagan import, import tartibi, eskirgan sintaksis, async xatolari |
 | `ruff format --check` | Formatlash bir xilligini tekshiradi (fayllarni o'zgartirmaydi) |
 | `python -m compileall` | Barcha fayllar sintaktik to'g'ri ekanini tasdiqlaydi |
-| `pytest -v` | 83 ta test |
+| `pytest -v` | 86 ta test |
 
 Python 3.11 va 3.12 da parallel ishlaydi (`StrEnum` va `X | None` sintaksisi
 3.11+ talab qiladi). Bitta branchga ketma-ket push bo'lsa, eski ishlar

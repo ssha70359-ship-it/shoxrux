@@ -122,8 +122,13 @@ REPLIES = {
 }
 
 
+# Bot yuborgan so'rovlar — demo oxirida nimalar jo'natilganini ko'rish uchun
+REQUESTS: list[dict] = []
+
+
 async def anthropic_messages(request: web.Request) -> web.Response:
     body = await request.json()
+    REQUESTS.append(body)
     system = body.get("system", "")
 
     lang = "uz"
